@@ -1,19 +1,35 @@
 package org.mandelcog;
 
-import org.mandelcog.ui.MandelWindow;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import javax.swing.JFrame;
+import org.mandelcog.ui.Sketch;
 
 /**
  *
  * @author  lopho
  */
-public class Mandelcog {
-    private final MandelWindow window;
+public class Mandelcog extends ComponentAdapter {
+    private final Sketch sketch;
+    private final JFrame frame;
     
-    public Mandelcog() {
-        window = new MandelWindow();
+    public Mandelcog(int width, int height) {
+        sketch = new Sketch(width, height);
+        frame = new JFrame("Mandelcog");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(width, height);
+        frame.add(sketch);
+        sketch.init();
+        frame.addComponentListener(this);        
     }
     
     public void start() {
-        
+        frame.setVisible(true);        
     }
+    
+    @Override
+    public void componentResized(ComponentEvent e) {
+        sketch.dirty();
+    }
+
 }
