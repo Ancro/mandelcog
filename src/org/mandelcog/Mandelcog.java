@@ -7,12 +7,13 @@ import org.mandelcog.ui.Sketch;
 
 /**
  *
- * @author  lopho
+ * @author lopho
  */
 public class Mandelcog extends ComponentAdapter {
+
     private final Sketch sketch;
     private final JFrame frame;
-    
+
     public Mandelcog(int width, int height) {
         sketch = new Sketch(width, height);
         frame = new JFrame("Mandelcog");
@@ -20,13 +21,13 @@ public class Mandelcog extends ComponentAdapter {
         frame.setSize(width, height);
         frame.add(sketch);
         sketch.init();
-        frame.addComponentListener(this);        
+        frame.addComponentListener(this);
     }
-    
+
     public void start() {
-        frame.setVisible(true);        
+        frame.setVisible(true);
     }
-    
+
     @Override
     public void componentResized(ComponentEvent e) {
         sketch.dirty();

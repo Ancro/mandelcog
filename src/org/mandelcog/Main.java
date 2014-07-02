@@ -5,7 +5,7 @@ package org.mandelcog;
  */
 public class Main {
     public static void main(String[] args) {
-        Mandelcog app = new Mandelcog(1024, 768);
+        Mandelcog app = new Mandelcog(600, 600);
         app.start();
     }
 }
