@@ -14,9 +14,9 @@ import processing.event.MouseEvent;
  *
  * @author lopho
  */
+@SuppressWarnings("serial")
 public class Sketch extends PApplet {
 
-    private static final long serialVersionUID = 1L;
     double vXMin = -2;
     double vYMin = -2;
     double vW = 4;
@@ -332,7 +332,7 @@ public class Sketch extends PApplet {
 
     @Override
     public void mouseReleased() {
-        if (mouseButton == LEFT) {
+        if ((mouseButton == LEFT) && (startSelectionX != mouseX || startSelectionY != mouseY)) {
             endSelectionX = mouseX;
             endSelectionY = mouseY;
             double step = 1;
