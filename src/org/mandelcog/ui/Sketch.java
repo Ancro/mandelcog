@@ -60,17 +60,17 @@ public class Sketch extends PApplet {
     public Sketch(int w, int h) {
         initw = w;
         inith = h;
-        
+
         scale = 1;
         maxIter = getMaxIter(1);
-        
+
         dirty = 1;
-        
+
         buf = new PImage(w, h, RGB);
         bufZoom = new PImage(w, h, ARGB);
         bufRender = new PImage(w, h, ARGB);
         bufComposite = new PImage(w, h, ARGB);
-        
+
         viewPort = new PImage(w, h, RGB);
         resize = false;
         color = false;
@@ -86,7 +86,7 @@ public class Sketch extends PApplet {
         };
         graddist = new double[]{1, 1, 1, 1, 1, 1};
         /*
-         gradcol = new int[] {
+         gradcol = new int[]{
          0x00_00_00_00,
          0xff_ff_00_00,
          0xff_00_ff_00,
@@ -94,9 +94,9 @@ public class Sketch extends PApplet {
          0xff_ff_00_ff,
          0xff_ff_ff_00,
          0xff_00_ff_ff,
-         0xff_ff_ff_ff,
-         };
-         graddist = new double[] { 1,1,1,1,1,1,1,1 };*/
+         0xff_ff_ff_ff,};
+         graddist = new double[]{1, 1, 1, 1, 1, 1, 1, 1};
+         */
         amode = REPLACE;
         blur = true;
     }
@@ -219,7 +219,7 @@ public class Sketch extends PApplet {
         viewPort.updatePixels();
         stepSizeX();
         stepSizeY();
-        
+
         fill(255, 0);
         stroke(127);
     }
@@ -251,7 +251,7 @@ public class Sketch extends PApplet {
         ex = Executors.newFixedThreadPool(4);
         for (int i = 0; i < step; i++) {
             ex.submit(new Grader(dIter, i, step));
-            //buf.pixels[i] = grad(vals[i],dIter,defcol,gradcol,graddist);
+            // buf.pixels[i] = grad(vals[i], dIter, defcol, gradcol, graddist);
         }
 
         ex.shutdown();
@@ -334,7 +334,6 @@ public class Sketch extends PApplet {
             this.set(0, 0, viewPort);
 
             // Draw the selection
-
             rect(startSelectionX, startSelectionY, mouseX - startSelectionX, mouseY - startSelectionY);
         }
     }
@@ -347,7 +346,7 @@ public class Sketch extends PApplet {
         if ((mouseButton == LEFT) && (startSelectionX != mouseX && startSelectionY != mouseY)) {
             endSelectionX = mouseX;
             endSelectionY = mouseY;
-            double step = 1;
+            double step;
             if ((startSelectionX + endSelectionX) < (startSelectionY + endSelectionY)) {
                 step = height / abs(startSelectionY - endSelectionY);
                 zoom((int) (startSelectionX + endSelectionX) / 2, (int) (startSelectionY + endSelectionY) / 2, step, true);
@@ -412,8 +411,8 @@ public class Sketch extends PApplet {
             scale *= step;
             nw = (int) (buf.width / step);
             nh = (int) (buf.height / step);
-            
-            if ((int)(bufZoom.width / step ) > 0 && (int)(bufZoom.height / step) > 0)
+
+            if ((int) (bufZoom.width / step) > 0 && (int) (bufZoom.height / step) > 0)
                 bufZoom.resize((int) (bufZoom.width / step), (int) (bufZoom.height / step));
         } else {
             vW = vW * step;
@@ -421,7 +420,7 @@ public class Sketch extends PApplet {
             scale /= step;
             nw = (int) (buf.width * step);
             nh = (int) (buf.height * step);
-            
+
             bufZoom.resize((int) (bufZoom.width * step), (int) (bufZoom.height * step));
         }
 
@@ -432,7 +431,6 @@ public class Sketch extends PApplet {
         nx = (int) (posx - nw / 2.0);
         ny = (int) (posy - nh / 2.0);
 
-        
         bufZoom.set(0, 0, buf.get(nx, ny, nw, nh));
         //bufZoom = buf.get(nx, ny, nw, nh);
         bufZoom.resize(buf.width, buf.height);
@@ -455,21 +453,20 @@ public class Sketch extends PApplet {
 
     // <editor-fold defaultstate="collapsed" desc="Unused">
     /*
-    private int intLinear(int v, int c1, int c2, int min, int max) {
-        double mapped = dmap(v, min, max, 0, 1);
-        int color = dlerpColor(c1, c2, mapped);
-        return color;
-    }
+     private int intLinear(int v, int c1, int c2, int min, int max) {
+     double mapped = dmap(v, min, max, 0, 1);
+     int color = dlerpColor(c1, c2, mapped);
+     return color;
+     }
 
-    private int intCurve(int v, int c1, int c2, int min, int max,
-                         float p1, float p2, float p3, float p4) {
-        double mapped = curvePoint(p1, p2, p3, p4, map(v, min, max, 0, 1));
-        int color = dlerpColor(c1, c2, mapped);
-        return color;
-    }
-    */
+     private int intCurve(int v, int c1, int c2, int min, int max,
+     float p1, float p2, float p3, float p4) {
+     double mapped = curvePoint(p1, p2, p3, p4, map(v, min, max, 0, 1));
+     int color = dlerpColor(c1, c2, mapped);
+     return color;
+     }
+     */
     // </editor-fold>
-
     private class Mandeler implements Runnable {
 
         private final int start;
