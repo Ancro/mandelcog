@@ -17,43 +17,42 @@ import processing.event.MouseEvent;
 @SuppressWarnings("serial")
 public class Sketch extends PApplet {
 
-    double vXMin = -2;
-    double vYMin = -2;
-    double vW = 4;
-    double vH = 4;
-    int initw;
-    int inith;
-    int maxIter;
-    int defaultColor;
+    private double vXMin = -2;
+    private double vYMin = -2;
+    private double vW = 4;
+    private double vH = 4;
+    private final int initw;
+    private final int inith;
+    private int maxIter;
 
-    double scale;
+    private double scale;
 
-    double sx;
-    double sy;
+    private double sx;
+    private double sy;
 
-    PImage buf;
-    PImage bufRender;
-    PImage bufZoom;
-    PImage bufComposite;
-    PImage viewPort;
+    private final PImage buf;
+    private final PImage bufRender;
+    private final PImage bufZoom;
+    private final PImage bufComposite;
+    private final PImage viewPort;
 
-    int dirty;
-    boolean resize;
-    boolean color;
+    private int dirty;
+    private boolean resize;
+    private boolean color;
 
-    double[] vals;
-    int[] hist;
+    private double[] vals;
+    //private int[] hist;
 
-    int[] gradcol;
-    double[] graddist;
-    int defcol;
+    private int[] gradcol;
+    private double[] graddist;
+    private final int defcol;
 
-    ExecutorService ex;
+    private ExecutorService ex;
 
-    int amode;
-    boolean blur;
+    private int amode;
+    private boolean blur;
 
-    int step;
+    private int step;
 
     private float startSelectionX, startSelectionY;
     private float endSelectionX, endSelectionY;
@@ -61,14 +60,17 @@ public class Sketch extends PApplet {
     public Sketch(int w, int h) {
         initw = w;
         inith = h;
-        defaultColor = 0x00000000;
+        
         scale = 1;
         maxIter = getMaxIter(1);
+        
         dirty = 1;
+        
         buf = new PImage(w, h, RGB);
         bufZoom = new PImage(w, h, ARGB);
         bufRender = new PImage(w, h, ARGB);
         bufComposite = new PImage(w, h, ARGB);
+        
         viewPort = new PImage(w, h, RGB);
         resize = false;
         color = false;
@@ -222,7 +224,7 @@ public class Sketch extends PApplet {
         stroke(127);
     }
 
-    public void calcMandel(int step) {
+    private void calcMandel(int step) {
         sx = stepSizeX();
         sy = stepSizeY();
         vals = new double[buf.pixels.length];
@@ -260,10 +262,6 @@ public class Sketch extends PApplet {
         }
 
         buf.updatePixels();
-    }
-
-    public PImage getView() {
-        return viewPort;
     }
 
     @Override
@@ -456,6 +454,7 @@ public class Sketch extends PApplet {
     }
 
     // <editor-fold defaultstate="collapsed" desc="Unused">
+    /*
     private int intLinear(int v, int c1, int c2, int min, int max) {
         double mapped = dmap(v, min, max, 0, 1);
         int color = dlerpColor(c1, c2, mapped);
@@ -468,6 +467,7 @@ public class Sketch extends PApplet {
         int color = dlerpColor(c1, c2, mapped);
         return color;
     }
+    */
     // </editor-fold>
 
     private class Mandeler implements Runnable {
