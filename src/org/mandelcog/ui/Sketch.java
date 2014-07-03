@@ -415,12 +415,16 @@ public class Sketch extends PApplet {
             scale *= step;
             nw = (int) (buf.width / step);
             nh = (int) (buf.height / step);
+            
+            bufZoom.resize((int) (bufZoom.width / step), (int) (bufZoom.height / step));
         } else {
             vW = vW * step;
             vH = vH * step;
             scale /= step;
             nw = (int) (buf.width * step);
             nh = (int) (buf.height * step);
+            
+            bufZoom.resize((int) (bufZoom.width * step), (int) (bufZoom.height * step));
         }
 
         maxIter = getMaxIter(scale);
@@ -430,7 +434,7 @@ public class Sketch extends PApplet {
         nx = (int) (posx - nw / 2.0);
         ny = (int) (posy - nh / 2.0);
 
-        bufZoom.resize((int) (bufZoom.width / step), (int) (bufZoom.height / step));
+        
         bufZoom.set(0, 0, buf.get(nx, ny, nw, nh));
         //bufZoom = buf.get(nx, ny, nw, nh);
         bufZoom.resize(buf.width, buf.height);
