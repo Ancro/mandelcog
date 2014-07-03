@@ -308,11 +308,11 @@ public class Sketch extends PApplet {
             image(viewPort, 0, 0);
             dirty--;
         }
-        viewPort.set(0, 0, bufComposite.get());
-        clear();
-        image(viewPort, 0, 0);
     }
 
+    /**
+     * Saves the first coordinates of the zoom selection.
+     */
     @Override
     public void mousePressed() {
         if (mouseButton == LEFT) {
@@ -321,15 +321,26 @@ public class Sketch extends PApplet {
         }
     }
 
+    /**
+     * Draws the selection rectangle.
+     */
     @Override
     public void mouseDragged() {
         if (mouseButton == LEFT) {
+            viewPort.set(0, 0, bufComposite.get());
+            clear();
+            image(viewPort, 0, 0);
+
+            // Draw the selection
             fill(255, 0);
             stroke(127);
             rect(startSelectionX, startSelectionY, mouseX - startSelectionX, mouseY - startSelectionY);
         }
     }
 
+    /**
+     * Saves the second coordinates of the zoom selection and zoomes in.
+     */
     @Override
     public void mouseReleased() {
         if ((mouseButton == LEFT) && (startSelectionX != mouseX || startSelectionY != mouseY)) {
@@ -416,7 +427,7 @@ public class Sketch extends PApplet {
         nx = (int) (posx - nw / 2.0);
         ny = (int) (posy - nh / 2.0);
 
-        bufZoom.resize(bufZoom.width / 2, bufZoom.height / 2);
+        bufZoom.resize((int) (bufZoom.width / step), (int) (bufZoom.height / step));
         bufZoom.set(0, 0, buf.get(nx, ny, nw, nh));
         //bufZoom = buf.get(nx, ny, nw, nh);
         bufZoom.resize(buf.width, buf.height);
@@ -437,6 +448,7 @@ public class Sketch extends PApplet {
         return (vH / buf.height);
     }
 
+    // <editor-fold defaultstate="collapsed" desc="Unused">
     private int intLinear(int v, int c1, int c2, int min, int max) {
         double mapped = dmap(v, min, max, 0, 1);
         int color = dlerpColor(c1, c2, mapped);
@@ -449,6 +461,7 @@ public class Sketch extends PApplet {
         int color = dlerpColor(c1, c2, mapped);
         return color;
     }
+    // </editor-fold>
 
     private class Mandeler implements Runnable {
 
@@ -463,13 +476,7 @@ public class Sketch extends PApplet {
         @Override
         public void run() {
             double py = vYMin / sy;
-            double pyy;
-            double px;
-            int posy;
             for (int y = start; y < buf.height; y += step) {
-                pyy = py + y;
-                px = vXMin / sx;
-                posy = y * buf.width;
                 for (int x = 0; x < buf.width; x++) {
                     double col = mandel(vXMin + sx * x, vYMin + sy * y, maxIter);
                     vals[y * buf.width + x] = col;
