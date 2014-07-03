@@ -1,5 +1,6 @@
 package org.mandelcog;
 
+import java.awt.Toolkit;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import javax.swing.JFrame;
@@ -19,6 +20,7 @@ public class Mandelcog extends ComponentAdapter {
         frame = new JFrame("Mandelcog");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(width, height);
+        frame.setLocation((Toolkit.getDefaultToolkit().getScreenSize().width - width) / 2, (Toolkit.getDefaultToolkit().getScreenSize().height - height) / 2);
         frame.add(sketch);
         sketch.init();
         frame.addComponentListener(this);
