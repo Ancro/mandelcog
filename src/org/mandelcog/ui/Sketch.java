@@ -346,11 +346,10 @@ public class Sketch extends PApplet {
      */
     @Override
     public void mouseReleased() {
-        if ((mouseButton == LEFT) && (startSelectionX != mouseX || startSelectionY != mouseY)) {
+        if ((mouseButton == LEFT) && (startSelectionX != mouseX && startSelectionY != mouseY)) {
             endSelectionX = mouseX;
             endSelectionY = mouseY;
             double step = 1;
-
             if ((startSelectionX + endSelectionX) < (startSelectionY + endSelectionY)) {
                 step = height / abs(startSelectionY - endSelectionY);
                 zoom((int) (startSelectionX + endSelectionX) / 2, (int) (startSelectionY + endSelectionY) / 2, step, true);
@@ -416,7 +415,8 @@ public class Sketch extends PApplet {
             nw = (int) (buf.width / step);
             nh = (int) (buf.height / step);
             
-            bufZoom.resize((int) (bufZoom.width / step), (int) (bufZoom.height / step));
+            if ((int)(bufZoom.width / step ) > 0 && (int)(bufZoom.height / step) > 0)
+                bufZoom.resize((int) (bufZoom.width / step), (int) (bufZoom.height / step));
         } else {
             vW = vW * step;
             vH = vH * step;
