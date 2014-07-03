@@ -76,7 +76,7 @@ public class Sketch extends PApplet {
         defcol = 0xff_ff_ff_ff;
         gradcol = new int[]{
             0xff_ff_ff_ff,
-            0x00_00_00_11,
+            0xff_00_00_11,
             0xff_ff_00_22,
             0xff_ff_C0_33,
             0xff_00_ff_ff,
@@ -217,6 +217,9 @@ public class Sketch extends PApplet {
         viewPort.updatePixels();
         stepSizeX();
         stepSizeY();
+        
+        fill(255, 0);
+        stroke(127);
     }
 
     public void calcMandel(int step) {
@@ -327,13 +330,13 @@ public class Sketch extends PApplet {
     @Override
     public void mouseDragged() {
         if (mouseButton == LEFT) {
-            viewPort.set(0, 0, bufComposite.get());
-            clear();
-            image(viewPort, 0, 0);
+            //viewPort.set(0, 0, bufComposite.get());
+            //clear();
+            //image(viewPort, 0, 0);
+            this.set(0, 0, viewPort);
 
             // Draw the selection
-            fill(255, 0);
-            stroke(127);
+
             rect(startSelectionX, startSelectionY, mouseX - startSelectionX, mouseY - startSelectionY);
         }
     }
@@ -349,10 +352,10 @@ public class Sketch extends PApplet {
             double step = 1;
 
             if ((startSelectionX + endSelectionX) < (startSelectionY + endSelectionY)) {
-                step = width / abs(startSelectionX - endSelectionX);
+                step = height / abs(startSelectionY - endSelectionY);
                 zoom((int) (startSelectionX + endSelectionX) / 2, (int) (startSelectionY + endSelectionY) / 2, step, true);
             } else {
-                step = height / abs(startSelectionY - endSelectionY);
+                step = width / abs(startSelectionX - endSelectionX);
                 zoom((int) (startSelectionX + endSelectionX) / 2, (int) (startSelectionY + endSelectionY) / 2, step, true);
             }
         }
